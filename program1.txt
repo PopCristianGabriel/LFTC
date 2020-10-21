@@ -1,0 +1,20 @@
+Program{
+Intreg a;
+Intreg b;
+Citeste(a);
+Citeste(b);
+CatTimp(a Diferit b Si a Mare 1 Si b Mare 1){
+Daca(a Mare b){
+a Ia a Minus b;
+}
+Altfel{
+b Ia b Minus a;
+}
+}
+Daca(a Mic b){
+Scrie(a);
+}
+Altfel{
+Scrie(b);
+}
+}

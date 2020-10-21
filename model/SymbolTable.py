@@ -11,10 +11,11 @@ class SymbolTable:
             self.checkingTable[newValue.getName()] = self.index
             self.table[self.index] = newValue
             self.index += 1
-            return
+            return self.index - 1
         value = self.table[position]
         if(value.variable == True):
             self.table[position] = newValue
+            return position
 
 
 
@@ -23,7 +24,7 @@ class SymbolTable:
 
     def printSymbolTable(self):
         for index,value in self.table.items():
-            print(index,value)
+            print("id: " , index , "value:" ,value)
 
 
 

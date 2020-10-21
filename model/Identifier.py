@@ -9,7 +9,7 @@ class Identifier:
         return self.name == other.getName()
 
     def __str__(self):
-        return self.name + str(self.value)
+        return self.name +" "+ str(self.value)
 
     def getName(self):
         return self.name
