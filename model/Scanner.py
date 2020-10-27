@@ -38,7 +38,8 @@ class Scanner:
         finalString = self.initializeSeparators()
         for i in range (len(self.program)):
             line = self.program[i]
-            line = re.split('[;,{}() ]',line)
+            line = re.split('(;,{}() )',line)
+            #    line = re.split('[;,{}() ]',line)
             line = list(filter(None, line))
             self.program[i] = line
 
@@ -55,14 +56,40 @@ class Scanner:
 
 
     def checkValidityOfVariable(self, variable):
-       return True
+       if(variable[0] in "0123456789"):
+           return False
+
 
     def interpretTokens(self):
-        for line in (self.program):
-            line.remove('\n')
+        for lineNumber,line in enumerate(self.program):
+            ok = False
+            for separator in self.separators:
+                if(separator in line[0]):
+                    ok = True
+                    break
+            if(ok == False):
+                print("Error at line ", lineNumber + 1)
+                return
+
+            line = line = re.split('[;,{}() ]',line[0])
+            try:
+                line.remove('\n')
+            except ValueError as e:
+                pass
+
+            try:
+                line.remove(';')
+            except ValueError as e:
+                pass
+            try:
+                line.remove('')
+            except ValueError as e:
+                pass
+
             ok = self.checkLine(line)
             if(ok == False):
-                print("Error at line ",i)
+                print("Error at line ",lineNumber + 1)
+                return
             else:
                 nextIsVariable = False
                 for i,word in enumerate(line):
@@ -74,7 +101,7 @@ class Scanner:
                     elif(nextIsVariable == True):
                         ok = self.checkValidityOfVariable(word)
                         if(ok == False):
-                            print("error")
+                            print("error at line",lineNumber + 1)
                             return
                         positionInSymbolTable = self.symbolTable.add(Identifier(word,0))
                         self.pif.add(word,positionInSymbolTable)
