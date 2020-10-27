@@ -63,6 +63,10 @@ class Scanner:
        if(variable[0] in "0123456789"):
            return False
 
+    def checkIfVariableIsArray(self,variable):
+        if('[' in variable):
+            return True
+        return False
 
     def interpretTokens(self):
         for lineNumber,line in enumerate(self.program):
@@ -106,15 +110,20 @@ class Scanner:
                         nextIsVariable = True
                     elif(nextIsVariable == True):
                         ok = self.checkValidityOfVariable(word)
+                        isArray = self.checkIfVariableIsArray(word)
                         if(ok == False):
                             print("error at line",lineNumber + 1)
                             return
-                        positionInSymbolTable = self.symbolTable.add(Identifier(word,0))
-                        self.pif.add(word,positionInSymbolTable)
+                        if(isArray == True):
+                            positionInSymbolTable = self.symbolTable.add(Identifier(word.split('[')[0], []))
+                            self.pif.add(word.split('[')[0], positionInSymbolTable)
+                        else:
+                            positionInSymbolTable = self.symbolTable.add(Identifier(word,0))
+                            self.pif.add(word,positionInSymbolTable)
 
 
         print(self.pif.pif)
         self.symbolTable.printSymbolTable()
-
+        print("Correct")
 
 
