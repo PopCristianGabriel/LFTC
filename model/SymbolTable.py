@@ -1,3 +1,6 @@
+from model.Identifier import Identifier
+
+
 class SymbolTable:
 
     def __init__(self):
@@ -17,6 +20,9 @@ class SymbolTable:
             self.table[position] = newValue
             return position
 
+
+    def exists(self,identifier):
+        return self.checkingTable.get(identifier) != None
 
 
     def get(self,id):

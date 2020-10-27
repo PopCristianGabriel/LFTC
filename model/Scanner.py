@@ -1,6 +1,9 @@
 import LanguageSpecifications as ls
 import re
 
+from model.Identifier import Identifier
+
+
 class Scanner:
     def __init__(self,fileName,pif,symbolTable):
         self.fileName = fileName
@@ -9,6 +12,7 @@ class Scanner:
         self.reservedWords = ls.reservedWords
         self.pif = pif
         self.symbolTable = symbolTable
+
 
 
     def initializeSeparators(self):
@@ -44,7 +48,7 @@ class Scanner:
 
     def checkLine(self,line):
         for i in range (len(line)):
-            if line[i] not in self.operators or (line[i] not in self.reservedWords and line[i - 1] not in ls.identifier):
+            if line[i] not in self.operators and line[i] not in self.reservedWords and (line[i] not in self.reservedWords and (line[i - 1]  not in ls.identifier and line[i-1] not in self.reservedWords) and i > 0) and self.symbolTable.exists(line[i]) == False:
                 return False
 
         return True
@@ -54,13 +58,14 @@ class Scanner:
        return True
 
     def interpretTokens(self):
-        for line,i in enumerate(self.program):
+        for line in (self.program):
+            line.remove('\n')
             ok = self.checkLine(line)
             if(ok == False):
                 print("Error at line ",i)
             else:
                 nextIsVariable = False
-                for word,i in enumerate(line):
+                for i,word in enumerate(line):
                     if(word in self.reservedWords):
                         self.pif.add(word,-1)
                     elif(word in ls.identifier):
@@ -71,10 +76,12 @@ class Scanner:
                         if(ok == False):
                             print("error")
                             return
-                        positionInSymbolTable = self.symbolTable.add(word)
+                        positionInSymbolTable = self.symbolTable.add(Identifier(word,0))
+                        self.pif.add(word,positionInSymbolTable)
 
 
-
+        print(self.pif.pif)
+        self.symbolTable.printSymbolTable()
 
 
 

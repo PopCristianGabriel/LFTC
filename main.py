@@ -35,6 +35,7 @@ def main():
     scanner = Scanner('program1.txt',pif,symbolTable)
     scanner.readProgram()
     scanner.tokanize()
+    scanner.interpretTokens()
 
 
 

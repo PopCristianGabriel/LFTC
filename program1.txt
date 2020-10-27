@@ -1,9 +1,11 @@
 Program{
 Intreg a;
 Intreg b;
+Intreg c;
+c Ia 1;
 Citeste(a);
 Citeste(b);
-CatTimp(a Diferit b Si a Mare 1 Si b Mare 1){
+CatTimp(a Diferit b Si a Mare c Si b Mare c){
 Daca(a Mare b){
 a Ia a Minus b;
 }
