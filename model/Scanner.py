@@ -12,6 +12,7 @@ class Scanner:
         self.reservedWords = ls.reservedWords
         self.pif = pif
         self.symbolTable = symbolTable
+        self.dereferences = ls.dereferences
 
 
 
@@ -43,13 +44,16 @@ class Scanner:
             line = list(filter(None, line))
             self.program[i] = line
 
-        print("dawd")
 
 
+    def checkDereference(self,variable):
+        if('[' not in variable or ']' not in variable):
+            return False
+        return True
 
     def checkLine(self,line):
         for i in range (len(line)):
-            if line[i] not in self.operators and line[i] not in self.reservedWords and (line[i] not in self.reservedWords and (line[i - 1]  not in ls.identifier and line[i-1] not in self.reservedWords) and i > 0) and self.symbolTable.exists(line[i]) == False:
+            if not self.checkDereference(line[i]) and line[i] not in self.operators and line[i] not in self.reservedWords and (line[i] not in self.reservedWords and (line[i - 1]  not in ls.identifier and line[i-1] not in self.reservedWords) and i > 0) and self.symbolTable.exists(line[i]) == False:
                 return False
 
         return True
@@ -93,8 +97,10 @@ class Scanner:
             else:
                 nextIsVariable = False
                 for i,word in enumerate(line):
-                    if(word in self.reservedWords):
+                    if(word in self.reservedWords or word in self.operators):
                         self.pif.add(word,-1)
+
+
                     elif(word in ls.identifier):
                         self.pif.add(word,-1)
                         nextIsVariable = True

@@ -3,7 +3,7 @@ Intreg a;
 Intreg b;
 Citeste(a);
 Citeste(b);
-Intreg c;
+Intreg c
 CatTimp(a Diferit b Si a Mare c Si b Mare c){
 Daca(a Mare b){
 a Ia a Minus b;

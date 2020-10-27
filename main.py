@@ -32,7 +32,7 @@ def main():
 
     #symbolTable.printSymbolTable()
     pif = Pif()
-    scanner = Scanner('program1.txt',pif,symbolTable)
+    scanner = Scanner('program1E.txt', pif, symbolTable)
     scanner.readProgram()
     scanner.tokanize()
     scanner.interpretTokens()

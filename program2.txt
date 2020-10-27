@@ -1,0 +1,15 @@
+Program{
+Intreg n;
+Sir v[100];
+Intreg s;
+Intreg i;
+i Ia 0;
+s Ia 0;
+CatTimp(i Mic n){
+Intreg c;
+Citeste(v[i]);
+s Ia s Plus v[i];
+i PlusPlus;
+}
+Scrie(s);
+}
