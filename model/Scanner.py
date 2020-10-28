@@ -16,6 +16,9 @@ class Scanner:
 
 
 
+
+
+
     def initializeSeparators(self):
         finalString = ''
         for str in self.separators:
@@ -52,8 +55,20 @@ class Scanner:
         return True
 
     def checkLine(self,line):
+        if(len(line) < 2):
+            return True
+
+        if(line[0] not in self.reservedWords and line[0] not in self.reservedWords and line[0] not in ls.identifier and self.symbolTable.exists(line[0]) == False and line[0] != '}'):
+            return False
+
+
         for i in range (len(line)):
-            if not self.checkDereference(line[i]) and line[i] not in self.operators and line[i] not in self.reservedWords and (line[i] not in self.reservedWords and (line[i - 1]  not in ls.identifier and line[i-1] not in self.reservedWords) and i > 0) and self.symbolTable.exists(line[i]) == False:
+            if (not self.checkDereference(line[i]) and
+                    line[i] not in self.operators and
+                    line[i] not in self.reservedWords and
+                    (line[i] not in self.reservedWords and
+                     (line[i - 1]  not in ls.identifier and line[i-1] not in self.reservedWords and line[i-1] not in self.operators and i > 0))
+                    and self.symbolTable.exists(line[i]) == False):
                 return False
 
         return True
@@ -79,8 +94,11 @@ class Scanner:
                 print("Error at line ", lineNumber + 1)
                 return
 
-            line = line = re.split('[;,{}() ]',line[0])
+            lastLine = re.split('([;,{}() ])',line[0])
+            line = re.split('[;,{}() ]',line[0])
+
             try:
+                lastLine.remove('\n')
                 line.remove('\n')
             except ValueError as e:
                 pass
@@ -90,7 +108,9 @@ class Scanner:
             except ValueError as e:
                 pass
             try:
+                lastLine.remove('')
                 line.remove('')
+                lastLine.remove(' ')
             except ValueError as e:
                 pass
 
@@ -100,23 +120,61 @@ class Scanner:
                 return
             else:
                 nextIsVariable = False
-                for i,word in enumerate(line):
-                    if(word in self.reservedWords or word in self.operators):
+                nextIsOperation = False
+                for i,word in enumerate(lastLine):
+                    if(self.symbolTable.exists(word)):
+                        self.pif.add(word,self.symbolTable.get(word))
+
+                    if (word == ' '):
                         self.pif.add(word,-1)
+                        continue
+                    if(word in self.reservedWords or word in self.operators or word in self.separators):
+                        self.pif.add(word,-1)
+
 
 
                     elif(word in ls.identifier):
                         self.pif.add(word,-1)
                         nextIsVariable = True
+                        continue
+
+
+                    if(word in ls.operations):
+                        nextIsOperation = True
+                        continue
+
+                    elif(nextIsOperation == True):
+                        if(word in ls.separators):
+                            continue
+                        if(self.symbolTable.exists(word)):
+                            self.pif.add(word,self.symbolTable.get(word))
+                        if(self.checkIfVariableIsArray(word)):
+                            self.pif.add(word.split('[')[0], positionInSymbolTable)
+                        else:
+                            positionInSymbolTable = self.symbolTable.add(Identifier("CONSTANT "+word,word))
+                            self.pif.add(word,positionInSymbolTable)
+                        nextIsOperation = False
+
                     elif(nextIsVariable == True):
+                        nextIsVariable = False
                         ok = self.checkValidityOfVariable(word)
                         isArray = self.checkIfVariableIsArray(word)
+
+
                         if(ok == False):
                             print("error at line",lineNumber + 1)
                             return
                         if(isArray == True):
                             positionInSymbolTable = self.symbolTable.add(Identifier(word.split('[')[0], []))
+                            vect =  word.split('[')
                             self.pif.add(word.split('[')[0], positionInSymbolTable)
+                            self.pif.add('[',-1)
+                            constant = vect[1][:-1]
+                            positionInSymbolTable = self.symbolTable.add(Identifier('CONSTANT '+ constant,constant))
+                            self.pif.add(constant,positionInSymbolTable)
+                            self.pif.add(']',-1)
+
+
                         else:
                             positionInSymbolTable = self.symbolTable.add(Identifier(word,0))
                             self.pif.add(word,positionInSymbolTable)

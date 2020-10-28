@@ -1,6 +1,8 @@
 Program{
 Intreg n;
 Sir v[100];
+Sfoara s;
+s Ia 'dawd';
 Intreg s;
 Intreg i;
 i Ia 0;

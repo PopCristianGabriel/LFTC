@@ -1,0 +1,11 @@
+Program{
+Sfoara s;
+Intreg n;
+Citeste(n);
+CatTimp(n Mare 0){
+Citeste(s);
+s Ia s Plus '!';
+Scrie(s);
+n MinusMinus;
+}
+}

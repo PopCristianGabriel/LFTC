@@ -1,8 +1,9 @@
 from model.Identifier import Identifier
 
 
-class Constant(Identifier):
+class Constant():
 
-    def __init__(self, name, value):
-        Identifier.__init__(self,name,value)
-        self.variable = False
+    def __init__(self ,value):
+        self.value = value
+
+

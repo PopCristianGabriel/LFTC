@@ -26,7 +26,7 @@ class SymbolTable:
 
 
     def get(self,id):
-       return self.table[id]
+       return self.checkingTable.get(id)
 
     def printSymbolTable(self):
         for index,value in self.table.items():
