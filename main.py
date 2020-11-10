@@ -1,6 +1,8 @@
 from Model.Reader import Reader
+from UI.UI import UI
 
 if __name__ == '__main__':
-   reader = Reader('input2.txt')
+   reader = Reader('FA.in.txt')
    finitaAutomata = reader.getFA()
-   finitaAutomata.printFA()
+   ui = UI(finitaAutomata)
+   ui.run()

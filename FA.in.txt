@@ -1,10 +1,11 @@
 S A B K
-K
+K A
 a b c
 S A a
+S B c
 A A a
 A B b
-S B b
 B K a
 B K b
 B K c
+K K a

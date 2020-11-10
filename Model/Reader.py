@@ -71,6 +71,5 @@ class Reader:
 
 
             finitaAutomata = FA(startingPoint,endingNodes,E,nodes)
-            finitaAutomata.refactor()
             return finitaAutomata
 

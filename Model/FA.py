@@ -22,7 +22,24 @@ class FA:
                 print(node.name + ' goes to ' + next[0].name + ' with ' + next[1])
 
 
+    def printStates(self):
+        for node in self.nodes:
+            print(node.name)
 
+    def printAlphabet(self):
+        print(self.E)
+
+    def printFinalStates(self):
+        print(self.endingPoints)
+
+    def printDeterministic(self):
+        for node in self.nodes:
+            visited = []
+            for next in node.nexts:
+                if(next[1] in visited):
+                    return False
+                visited.append(next[1])
+        return True
 
 
 
