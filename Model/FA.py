@@ -1,3 +1,4 @@
+import copy
 class FA:
 
     def __init__(self,startingPoint,endingPoints,E,nodes):
@@ -40,6 +41,45 @@ class FA:
                     return False
                 visited.append(next[1])
         return True
+
+
+    def getStartingPoint(self,name):
+        for node in self.nodes:
+            if(node.name == name):
+                return node
+
+    def accepts(self,sequence):
+        node = self.getStartingPoint(self.startingPoint)
+        toVisit = copy.copy(node.nexts)
+
+
+        while(len(sequence) > 0 and len(toVisit) > 0):
+            j = 0
+            toVisit2 = copy.copy(toVisit)
+            for i,nodeNext in enumerate(toVisit2):
+                if(nodeNext[1] != sequence[0]):
+                    del toVisit[j]
+
+                else:
+                    j+= 1
+            del sequence[0]
+            toVisit2 = []
+            currently = copy.copy(toVisit)
+            for next in toVisit:
+                toVisit2.append(copy.copy(self.getStartingPoint(next[0].name).nexts))
+            try:
+                toVisit = toVisit2[0]
+            except Exception:
+                pass
+
+        if(len(sequence) != 0):
+            return False
+        for node in currently:
+            if(node[0].name in self.endingPoints):
+                return True
+        return False
+
+
 
 
 

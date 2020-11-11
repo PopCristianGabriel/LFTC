@@ -9,6 +9,7 @@ class UI:
         print("3 - print the transitions")
         print("4 - print the final states")
         print("5 - check if the given FA is deterministic")
+        print("6 - check if a sequence is accepted by fa")
         print("0 - quit")
 
     def run(self):
@@ -29,5 +30,8 @@ class UI:
                     print("the Finita automata is deterministic")
                 else:
                     print("the Finita automata is not deterministic")
-
+            elif(option == 6):
+                sequence = input()
+                sequence = sequence.split(" ")
+                print(self.fa.accepts(sequence))
 
